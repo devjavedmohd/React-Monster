@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 // Class based
@@ -10,30 +10,54 @@ class App extends Component {
     this.state = {
        name: {firstName : 'Javed', lastName: 'Khan'},
        company: 'Faham Pvt.',
-       monsters: [
+       oldMonsters: [
         {name: 'John', id: 'asd23'},
         {name: 'Hulk', id: 'asd21'},
         {name: 'Rocky', id: 'asd25'},
         {name: 'Modi', id: 'asd258s'}
        ],
-       newMonster: []
+       monsters: [],
+       searchField: ''
     }
-    console.log('constructor')
+    // console.log('constructor')
   }
 
   componentDidMount() {
     fetch('https://jsonplaceholder.typicode.com/users')
     .then((response) => response.json())
     .then((users) => this.setState(() => {
-      return { newMonster : users }
+      return { monsters : users }
     }))
-    console.log('componentDidMount')
+    // console.log('componentDidMount')
+  }
+
+  onSearchChange = (event) => {
+    const searchField = event.target.value.toLocaleLowerCase();
+    
+    this.setState(() => {
+      return {
+        searchField
+      }}
+    )
   }
 
   render () {
-    console.log('render')
+    // console.log('render')
+    const {monsters, searchField } = this.state;
+    const {onSearchChange} = this;
+
+    const filteredMonster = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
+    });
+    
     return (
       <div className="App">
+        <input 
+          className='search-box' 
+          type='serach' 
+          placeholder='Type to search for monster'
+          onChange={onSearchChange}
+        />
         {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1>Hi {this.state.name.firstName} {this.state.name.lastName}, I work at {this.state.company}</h1>
@@ -55,10 +79,10 @@ class App extends Component {
             );
           }}>Change Name</button>
         </header> */}
-        {/* {this.state.monsters.map((monster) => {
+        {/* {this.state.oldMonsters.map((monster) => {
           return <h1 key={monster.id}>{monster.name}</h1>
         })} */}
-        {this.state.newMonster.map((monster) => {
+        {filteredMonster.map((monster) => {
           return <h1 key={monster.id}>{monster.name}</h1>
         })}
       </div>
