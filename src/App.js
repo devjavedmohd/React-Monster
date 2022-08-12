@@ -1,5 +1,7 @@
 import { Component } from 'react';
 // import logo from './logo.svg';
+import CardList from './components/card-list/card-list.component';
+import SearchBox from './components/search-box/search-box.component';
 import './App.css';
 
 // Class based
@@ -52,12 +54,7 @@ class App extends Component {
     
     return (
       <div className="App">
-        <input 
-          className='search-box' 
-          type='serach' 
-          placeholder='Type to search for monster'
-          onChange={onSearchChange}
-        />
+        <SearchBox onChangeHandler={onSearchChange}/>
         {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1>Hi {this.state.name.firstName} {this.state.name.lastName}, I work at {this.state.company}</h1>
@@ -82,9 +79,10 @@ class App extends Component {
         {/* {this.state.oldMonsters.map((monster) => {
           return <h1 key={monster.id}>{monster.name}</h1>
         })} */}
-        {filteredMonster.map((monster) => {
+        <CardList monster={filteredMonster}/>
+        {/* {filteredMonster.map((monster) => {
           return <h1 key={monster.id}>{monster.name}</h1>
-        })}
+        })} */}
       </div>
     );
   }
